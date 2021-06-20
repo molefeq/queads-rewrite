@@ -1,4 +1,6 @@
 DROP TABLE IF EXISTS que_ads.policy;
+DROP TABLE IF EXISTS que_ads.sub_category;
+DROP TABLE IF EXISTS que_ads.category;
 DROP TABLE IF EXISTS que_ads.city;
 DROP TABLE IF EXISTS que_ads.province;
 DROP TABLE IF EXISTS que_ads.user;
@@ -29,6 +31,19 @@ CREATE TABLE IF NOT EXISTS que_ads.user (
 	  REFERENCES que_ads.role (id)
 );
 
+CREATE TABLE IF NOT EXISTS que_ads.category (
+	id serial PRIMARY KEY,
+	name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS que_ads.sub_category(
+	id serial PRIMARY KEY,
+	name VARCHAR(50) NOT NULL,
+	category_id int NOT NULL,
+	CONSTRAINT fk_category_id_sub_category_category_id FOREIGN KEY (category_id)
+	  REFERENCES que_ads.category (id)
+);
+
 CREATE TABLE IF NOT EXISTS que_ads.province (
 	id serial PRIMARY KEY,
 	name VARCHAR(50) NOT NULL,
@@ -53,6 +68,7 @@ CREATE TABLE IF NOT EXISTS que_ads.policy (
 	images text[] NULL,
 	view_count int NOT NULL DEFAULT 0,
 	reply_count int NOT NULL DEFAULT 0,
+	sub_category_id int NOT NULL,
 	city_id int NOT NULL,
 	user_id bigint NOT NULL,
 	edit_date timestamp NULL,
@@ -60,5 +76,7 @@ CREATE TABLE IF NOT EXISTS que_ads.policy (
 	CONSTRAINT fk_user_id_policy_user_id FOREIGN KEY (user_id)
 	  REFERENCES que_ads.user (id),
 	CONSTRAINT fk_city_id_policy_city_id FOREIGN KEY (city_id)
-	  REFERENCES que_ads.city (id)
+	  REFERENCES que_ads.city (id),
+	CONSTRAINT fk_sub_category_id_policy_sub_category_id FOREIGN KEY (sub_category_id)
+	  REFERENCES que_ads.sub_category (id)
 );
