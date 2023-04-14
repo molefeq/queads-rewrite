@@ -19,6 +19,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <java.version>17</java.version>
+        <project.scm.id>github</project.scm.id>
     </properties>
     <dependencies>
         <dependency>
@@ -40,4 +41,30 @@
         <developerConnection>scm:git:https://github.com/molefeq/queads-rewrite.git</developerConnection>
         <url>https://github.com/molefeq/queads-rewrite</url>
     </scm>
+    <build>
+        <extensions>
+            <extension>
+                <groupId>io.packagecloud.maven.wagon</groupId>
+                <artifactId>maven-packagecloud-wagon</artifactId>
+                <version>0.0.6</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+            </plugin>
+        </plugins>
+    </build>
+    <distributionManagement>
+        <repository>
+            <id>packagecloud.releases</id>
+            <url>packagecloud+https://packagecloud.io/molefeq/release</url>
+        </repository>
+        <snapshotRepository>
+            <id>packagecloud.snapshots</id>
+            <url>packagecloud+https://packagecloud.io/molefeq/snapshot</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
